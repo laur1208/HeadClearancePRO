@@ -35,12 +35,6 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
     public static int VIBRATION_TOGGLE;
 
     @Override
-    public void onBackPressed() {
-        vibrate(VIBRATION_TOGGLE);
-        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fasteners_list);
