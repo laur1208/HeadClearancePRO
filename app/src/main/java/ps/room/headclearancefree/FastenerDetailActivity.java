@@ -52,6 +52,8 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
     private Map<String, FastenerSizes> mSizesMap;
     private ImageView mFastenerImage;
     private PopupMenu mPopupMenu;
+    private ImageView mLegendImage;
+    private TextView mFastenerName;
     private int clicked_row_num;
     private int clicked_cell_position;
     private RecyclerView mRecyclerView;
@@ -96,17 +98,17 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(NR_OF_COLUMNS, GRID_SPACING, true));
 
         /*---- set legend image image -----*/
-        ImageView legendImage = findViewById(R.id.legend_image_frm);
-        legendImage.setImageBitmap(mFastenerLegendImage);
+        mLegendImage = findViewById(R.id.legend_image_frm);
+        mLegendImage.setImageBitmap(mFastenerLegendImage);
 
         /*---- set fastener image -----*/
         mFastenerImage = findViewById(R.id.fastener_image_frm);
         mFastenerImage.setImageBitmap(DataManager.getInstance().getFastenerImage());
 
         /*---- set fastener name ----*/
-        TextView fastenerName = findViewById(R.id.fastener_name_rel);
-        fastenerName.setText(DataManager.getInstance().getFastenerName());
-        fastenerName.setTextColor(Color.BLACK);
+        mFastenerName = findViewById(R.id.fastener_name_rel);
+        mFastenerName.setText(DataManager.getInstance().getFastenerName());
+        mFastenerName.setTextColor(Color.BLACK);
 
         /*---- change tab bar name with fastener type ----*/
         changeActionBar();
