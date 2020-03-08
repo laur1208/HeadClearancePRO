@@ -45,7 +45,6 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
     private static final String TAG = "==GRID CLICK==";
     private static int mFastenerId;
     private static int mFastenerTypeId;
-    private FastenerDetailRecyclerAdapter mFastenerDetailRecyclerAdapter;
     private CustomGridLayoutManager mCustomGridLayoutManager;
     private static Bitmap mFastenerLegendImage;
     private List<FastenerSizes> mFastenerSizesList;
@@ -85,14 +84,14 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 
         /*-----grid recycler adapter-----*/
         mRecyclerView = findViewById(R.id.grid_recycler);
-        mFastenerDetailRecyclerAdapter = new FastenerDetailRecyclerAdapter(this, NR_OF_ROWS, NR_OF_COLUMNS, GRID_SPACING, mPreviousSizes, mSizesMap, this);
+        FastenerDetailRecyclerAdapter fastenerDetailRecyclerAdapter = new FastenerDetailRecyclerAdapter(this, NR_OF_ROWS, NR_OF_COLUMNS, GRID_SPACING, mPreviousSizes, mSizesMap, this);
         //mFastenerDetailRecyclerAdapter.setHasStableIds(true);
 
         /*--- set custom grid for the recycler ---*/
         mCustomGridLayoutManager = new CustomGridLayoutManager(this, NR_OF_COLUMNS);
         mCustomGridLayoutManager.setScrollEnabled(false);
         mRecyclerView.setLayoutManager(mCustomGridLayoutManager);
-        mRecyclerView.setAdapter(mFastenerDetailRecyclerAdapter);
+        mRecyclerView.setAdapter(fastenerDetailRecyclerAdapter);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(NR_OF_COLUMNS, GRID_SPACING, true));
 
         /*---- set legend image image -----*/
