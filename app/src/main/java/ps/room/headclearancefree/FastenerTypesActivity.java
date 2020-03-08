@@ -1,9 +1,5 @@
 package ps.room.headclearancefree;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,18 +8,32 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
+import java.util.Objects;
 
 public class FastenerTypesActivity extends AppCompatActivity implements FastenerTypesRecyclerAdapter.ViewHolder.OnFastenerTypeClickListener {
-    private static final String TAG = "==MAIN_ACTIVITY LOG==";
-    private MyDatabaseHelper mMyDatabaseHelper;
     public static int VIBRATION_TOGGLE;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                assert data != null;
+                VIBRATION_TOGGLE = Objects.requireNonNull(data.getExtras()).getInt("VIBRATION_TOGGLE");
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +73,7 @@ public class FastenerTypesActivity extends AppCompatActivity implements Fastener
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -84,21 +94,21 @@ public class FastenerTypesActivity extends AppCompatActivity implements Fastener
 
     /*-------get fastener types from database---------*/
     public void fetchFastenerTypes() {
-        mMyDatabaseHelper = MyDatabaseHelper.getInstance(this);
+        MyDatabaseHelper myDatabaseHelper = MyDatabaseHelper.getInstance(this);
         try {
 
-            mMyDatabaseHelper.createDataBase();
+            myDatabaseHelper.createDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        SQLiteDatabase database = mMyDatabaseHelper.getReadableDatabase();
+        SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
         Cursor cursor = database.query("vw_fastener_types", null, null, null, null, null, null);
 
         getVibrationEffect(database);
 
         DataManager.loadFastenerTypes(cursor);
-        mMyDatabaseHelper.close();
+        myDatabaseHelper.close();
         database.close();
     }
 

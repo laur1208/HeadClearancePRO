@@ -1,28 +1,29 @@
 package ps.room.headclearancefree;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceChangeListener;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
 public class SettingsActivity extends AppCompatActivity {
     public static int VIBRATION_TOGGLE;
     private MyDatabaseHelper mMyDatabaseHelper;
+
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = new Intent(this, FastenerTypesActivity.class);
+        backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+        setResult(RESULT_OK, backIntent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

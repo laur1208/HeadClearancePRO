@@ -1,14 +1,8 @@
 package ps.room.headclearancefree;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,20 +13,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -409,51 +401,4 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         }
         vibrate(VIBRATION_TOGGLE);
     }
-
-
-//    /*---- add fastener sizes to menu from hash map key ----*/
-//    private void addSizesToMenu() {
-//        for(Map.Entry<String, FastenerSizes> entry : mSizesMap.entrySet()){
-//            mPopupMenu.getMenu().add(entry.getKey());
-//        }
-//    }
-
-//    /*---- get menu, inflate it and set click listener -----*/
-//    private void prepareAndInflateMenu() {
-//        mPopupMenu = new PopupMenu(this, mFastenerName, Gravity.END);
-//        mPopupMenu.getMenuInflater().inflate(R.menu.settings_menu, mPopupMenu.getMenu());
-//        mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                String selectedSize = (String) item.getTitle();
-//
-//                /*--- check if selected size already in grid ---*/
-//                if(checkSizeInGrid(selectedSize))
-//                {
-//                    /*---check fastener type ----*/
-//                    switch (mFastenerTypeId){
-//                        case 1:
-//                        case 3:
-//                            setCellGridValue(clicked_cell_position, String.valueOf(mSizesMap.get(selectedSize).getMainSize()));
-//                            setCellGridValue(clicked_cell_position + 1, String.valueOf(mSizesMap.get(selectedSize).getaMinSize()));
-//                            setCellGridValue(clicked_cell_position + 2, String.valueOf(mSizesMap.get(selectedSize).getaSize()));
-//                            setCellGridValue(clicked_cell_position + 3, String.valueOf(mSizesMap.get(selectedSize).getaMaxSize()));
-//                            setCellGridValue(clicked_cell_position + 4, String.valueOf(mSizesMap.get(selectedSize).getbSize()));
-//                            setCellGridValue(clicked_cell_position + 5, String.valueOf(mSizesMap.get(selectedSize).getcSize()));
-//                            break;
-//                        case 2:
-//                            setCellGridValue(clicked_cell_position, String.valueOf(mSizesMap.get(selectedSize).getMainSize()));
-//                            setCellGridValue(clicked_cell_position + 1, String.valueOf(mSizesMap.get(selectedSize).getaMinSize()));
-//                            setCellGridValue(clicked_cell_position + 2, String.valueOf(mSizesMap.get(selectedSize).getaSize()));
-//                            setCellGridValue(clicked_cell_position + 3, String.valueOf(mSizesMap.get(selectedSize).getaMaxSize()));
-//                            setCellGridValue(clicked_cell_position + 4, String.valueOf(mSizesMap.get(selectedSize).getbSize()));
-//                            setCellGridValue(clicked_cell_position + 5, String.valueOf(mSizesMap.get(selectedSize).getcSize()));
-//                            setCellGridValue(clicked_cell_position + 6, String.valueOf(mSizesMap.get(selectedSize).getdSize()));
-//                            break;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
-//    }
 }
