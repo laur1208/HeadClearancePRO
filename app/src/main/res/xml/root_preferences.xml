@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <PreferenceCategory app:title="Vibration effect">
+
+        <SwitchPreferenceCompat
+            android:id="@string/vibration_toggle"
+            app:key="@string/vibration_toggle"
+            app:title="Enable vibration on tap" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
