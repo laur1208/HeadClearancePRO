@@ -271,7 +271,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         database.close();
     }
 
-    /*--- set the alert dialog with the sisez ---*/
+    /*--- set the alert dialog with the sizes ---*/
     private void showSizesDialog(){
         final CharSequence[] sizes = mSizesMap.keySet().toArray(new CharSequence[0]);
         AlertDialog.Builder sizesDialog = new AlertDialog.Builder(this);
