@@ -17,12 +17,13 @@ public class FastenerTypesRecyclerAdapter extends RecyclerView.Adapter<FastenerT
     private static final String TAG = "===CLICK LOG=== ";
     private final List<FastenerType> mFastenerTypeList;
     private final LayoutInflater mLayoutInflater;
-    private final Context mContext;
+    /*----- other variables -----*/
+    private ViewHolder.OnFastenerTypeClickListener mOnFastenerTypeClickListener;
 
-    FastenerTypesRecyclerAdapter(Context context, List<FastenerType> fastenerTypeList) {
+    FastenerTypesRecyclerAdapter(Context context, List<FastenerType> fastenerTypeList, ViewHolder.OnFastenerTypeClickListener onFastenerTypeClickListener) {
         mFastenerTypeList = fastenerTypeList;
         mLayoutInflater = LayoutInflater.from(context);
-        mContext = context;
+        this.mOnFastenerTypeClickListener = onFastenerTypeClickListener;
     }
 
     @NonNull
@@ -31,7 +32,7 @@ public class FastenerTypesRecyclerAdapter extends RecyclerView.Adapter<FastenerT
         View itemView = mLayoutInflater.inflate(R.layout.fastener_type_item, parent, false);
         float height = parent.getHeight();
         itemView.getLayoutParams().height = Math.round(height/3);
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, mOnFastenerTypeClickListener);
     }
 
     @Override
@@ -48,27 +49,29 @@ public class FastenerTypesRecyclerAdapter extends RecyclerView.Adapter<FastenerT
         return mFastenerTypeList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final TextView mFastenerType;
         final ImageView mFastenerImage;
         int mCurrentPosition;
+        OnFastenerTypeClickListener mOnFastenerTypeClickListener;
 
-        ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView, OnFastenerTypeClickListener onFastenerTypeClickListener) {
             super(itemView);
             mFastenerType = itemView.findViewById(R.id.fastener_type);
             mFastenerImage = itemView.findViewById(R.id.fastener_image);
+            this.mOnFastenerTypeClickListener = onFastenerTypeClickListener;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Log.i(tag,"Clicked position " + mCurrentPosition);
-                    Intent intent = new Intent(mContext, FastenersListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.putExtra("FASTENER_TYPE_ID", mCurrentPosition);
-                    mContext.startActivity(intent);
-                }
-            });
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnFastenerTypeClickListener.onFastenerTypeClick(mCurrentPosition, v);
+        }
+
+        public interface OnFastenerTypeClickListener{
+            void onFastenerTypeClick(int position, View clickedCell);
         }
     }
 }

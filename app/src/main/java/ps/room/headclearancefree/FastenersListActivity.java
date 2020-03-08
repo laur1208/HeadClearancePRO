@@ -1,11 +1,15 @@
 package ps.room.headclearancefree;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -28,7 +32,13 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
     private List<FastenerDescription> mFastenerDescriptionList;
     private int mFastenerTypeId;
     private List<String> previousSizes;
+    public static int VIBRATION_TOGGLE;
 
+    @Override
+    public void onBackPressed() {
+        vibrate(VIBRATION_TOGGLE);
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
             mFastenerTypeId = -1;
         }else{
             mFastenerTypeId = extras.getInt("FASTENER_TYPE_ID");
+            VIBRATION_TOGGLE = extras.getInt("VIBRATION_TOGGLE");
             if(extras.getStringArrayList("sizes") != null){
                 previousSizes = extras.getStringArrayList("sizes");
             }
@@ -49,6 +60,20 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
 
         displayFastenersList();
 
+    }
+
+    private void vibrate(int VIBRATION_TOGGLE){
+        if(VIBRATION_TOGGLE == 1){
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                assert v != null;
+                v.vibrate(VibrationEffect.createOneShot(80, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //deprecated in API 26
+                assert v != null;
+                v.vibrate(80);
+            }
+        }
     }
 
     public void fetchFastenerDescriptionList(int fastenerTypeId) {
@@ -118,6 +143,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("fastenerTypeId", fastener_type_id);
             intent.putExtra("fastenerId", fastener_id);
+            intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
             if(previousSizes != null){
                 intent.putExtra("sizes", (Serializable) previousSizes);
             }
@@ -125,6 +151,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
 //            startActivity(intent);
             startActivityForResult(intent, 1);
         }
+        vibrate(VIBRATION_TOGGLE);
     }
 
     void updateFastenerFavoriteValue(int position, int fastener_id, int fastener_type_id, int value_to_set_on_favorite){

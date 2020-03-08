@@ -9,6 +9,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,10 +17,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -60,6 +66,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
     private int clicked_cell_position;
     private RecyclerView mRecyclerView;
     private List<String> mPreviousSizes;
+    public static int VIBRATION_TOGGLE;
 
     @Override
     public void onBackPressed() {
@@ -199,12 +206,27 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         }
     }
 
+    private void vibrate(int VIBRATION_TOGGLE){
+        if(VIBRATION_TOGGLE == 1){
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                assert v != null;
+                v.vibrate(VibrationEffect.createOneShot(80, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //deprecated in API 26
+                assert v != null;
+                v.vibrate(80);
+            }
+        }
+    }
+
     /*---get info from previous activity---*/
     private void getBundleInformation() {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         mFastenerId = extras.getInt("fastenerId");
         mFastenerTypeId = extras.getInt("fastenerTypeId");
+        VIBRATION_TOGGLE = extras.getInt("VIBRATION_TOGGLE");
 
         /*--- set the number of cells in grid based on fastener type ----*/
         if(mFastenerTypeId == 1 || mFastenerTypeId == 3){
@@ -385,6 +407,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
                 deleteSize(position);
             }
         }
+        vibrate(VIBRATION_TOGGLE);
     }
 
 
@@ -398,7 +421,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 //    /*---- get menu, inflate it and set click listener -----*/
 //    private void prepareAndInflateMenu() {
 //        mPopupMenu = new PopupMenu(this, mFastenerName, Gravity.END);
-//        mPopupMenu.getMenuInflater().inflate(R.menu.sizes_menu, mPopupMenu.getMenu());
+//        mPopupMenu.getMenuInflater().inflate(R.menu.settings_menu, mPopupMenu.getMenu());
 //        mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 //            @Override
 //            public boolean onMenuItemClick(MenuItem item) {
