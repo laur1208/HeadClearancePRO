@@ -68,6 +68,7 @@ public class FastenersListRecyclerAdapter extends RecyclerView.Adapter<Fasteners
         int mIsFavoriteValue;
         int fastenerID;
         int positionInList;
+        int positionInList2;
         int fastenerTypeId;
         int valueToSetOnFavorite;
         OnFastenerListener onFastenerListener;
