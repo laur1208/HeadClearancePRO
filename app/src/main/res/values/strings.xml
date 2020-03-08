@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HeadClearance</string>
+    <string name="fastener_img_cont_desc">fastener_img_cont_desc</string>
+    <string name="fastener_type">fastener_type</string>
+    <string name="title_activity_fasteners_list">FastenersListActivity</string>
+    <string name="fastener_name_desc">fastener_name_desc</string>
+    <string name="is_favorite">is_favorite</string>
+    <string name="cell_text">cell_text</string>
+    <string name="cell_button">cell_button</string>
+    <string name="add_size">Add size</string>
+    <string name="empty" />
+    <string name="size">Size</string>
+    <string name="a_min">(A) min</string>
+    <string name="a_max">(A) max</string>
+    <string name="legend_image">legend_image</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="counterbore">Counterbored</string>
+    <string name="countersunk">Countersunk</string>
+    <string name="spotface">Spotface</string>
+    <string name="select_fastener_legend_image">select IH.Image from FastenerImages FI inner join ImageHub IH on FI.ImageId = IH.ID where FI.ImageType = \'SECONDARY\' and FI.FastenerTypeId = ?</string>
+</resources>

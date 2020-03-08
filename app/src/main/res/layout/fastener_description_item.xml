@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/grey"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="283dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/white">
+
+            <TextView
+                android:id="@+id/fastener_name_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/fastener_name_desc"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/fastener_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/fastener_image"
+                android:layout_width="209dp"
+                android:layout_height="155dp"
+                android:layout_marginStart="128dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/fastener_img_cont_desc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/is_favorite"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fastener_name_desc"
+                app:srcCompat="@drawable/ic_launcher_background" />
+
+            <ImageView
+                android:id="@+id/is_favorite"
+                android:layout_width="45dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginEnd="64dp"
+                android:contentDescription="@string/is_favorite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fastener_image"
+                app:layout_constraintTop_toBottomOf="@+id/fastener_name_desc"
+                app:srcCompat="@drawable/star_off" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
