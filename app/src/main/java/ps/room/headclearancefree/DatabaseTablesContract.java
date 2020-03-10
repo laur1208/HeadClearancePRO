@@ -22,6 +22,7 @@ final class DatabaseTablesContract {
         static final String STANDARD_DETAILED = "Standard_detailed";
         static final String IMAGE = "Image";
         static final String IS_FAVORITE = "Is_favorite";
+        static final String IS_AVAILABLE = "Available";
     }
 
     static final class FastenerSizesEntry implements BaseColumns{

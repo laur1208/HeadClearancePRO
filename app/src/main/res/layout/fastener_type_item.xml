@@ -27,7 +27,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="@string/fastener_type"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/fastener_image"

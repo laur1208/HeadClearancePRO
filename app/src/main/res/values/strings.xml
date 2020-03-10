@@ -22,4 +22,5 @@
     <string name="settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
     <string name="vibration_toggle">vibration_toggle</string>
+    <string name="PRO_VERSION_LINK">https://play.google.com/store/apps/details?id=com.CoraxEngineeringSolutionsSRL.HeadClearance</string>
 </resources>
