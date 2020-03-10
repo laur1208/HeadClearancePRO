@@ -27,7 +27,7 @@ public class FastenersListRecyclerAdapter extends RecyclerView.Adapter<Fasteners
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.fastener_description_item, parent, false);
+        View itemView = mLayoutInflater.inflate(R.layout.fastener_desc_item, parent, false);
         float height = parent.getHeight();
         //itemView.getLayoutParams().height = Math.round(height/3);
         return new ViewHolder(itemView, onFastenerListener);
@@ -74,9 +74,9 @@ public class FastenersListRecyclerAdapter extends RecyclerView.Adapter<Fasteners
 
         ViewHolder(@NonNull final View itemView, OnFastenerListener onFastenerListener) {
             super(itemView);
-            mFastenerDescription = itemView.findViewById(R.id.fastener_name_desc);
-            mFastenerImage = itemView.findViewById(R.id.fastener_image);
-            mIsFavorite = itemView.findViewById(R.id.is_favorite);
+            mFastenerDescription = itemView.findViewById(R.id.fastener_name_rel);
+            mFastenerImage = itemView.findViewById(R.id.fastener_image_frm);
+            mIsFavorite = itemView.findViewById(R.id.favorite_img);
             this.onFastenerListener = onFastenerListener;
 
             itemView.setOnClickListener(this);

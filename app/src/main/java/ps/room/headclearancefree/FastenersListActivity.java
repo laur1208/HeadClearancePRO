@@ -129,7 +129,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
 
     @Override
     public void onFastenerClick(int position, View clickedView, int fastener_id, int fastener_type_id, int value_to_set_on_favorite) {
-        if (clickedView.getId() == R.id.is_favorite) {
+        if (clickedView.getId() == R.id.favorite_img) {
             updateFastenerFavoriteValue(position, fastener_id, fastener_type_id, value_to_set_on_favorite);
         } else {
             Intent intent = new Intent(this, FastenerDetailActivity.class);

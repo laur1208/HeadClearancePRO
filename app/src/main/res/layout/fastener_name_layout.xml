@@ -11,5 +11,6 @@
         android:gravity="center"
         android:text="@string/fastener_name_desc"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black" />
 </RelativeLayout>
