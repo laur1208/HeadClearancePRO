@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -151,7 +152,8 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
             }
             vibrate(VIBRATION_TOGGLE);
         }else{
-            Toast.makeText(this,"Fastener available only on PRO version.",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.PRO_VERSION_LINK))));
+            //Toast.makeText(this,"Fastener available only on PRO version.",Toast.LENGTH_SHORT).show();
         }
     }
 
