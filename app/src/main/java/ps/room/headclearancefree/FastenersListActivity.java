@@ -133,8 +133,10 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         FastenerDescription fastenerDescription = mFastenerDescriptionList.get(position);
         /*--- check if fastener is on free version or not ---*/
         if (fastenerDescription.getIsAvailable() == 1){
+            /*--- if favorite click ---*/
             if (clickedView.getId() == R.id.favorite_img) {
                 updateFastenerFavoriteValue(position, fastener_id, fastener_type_id, value_to_set_on_favorite);
+                /*--- if fastener click ---*/
             } else {
                 Intent intent = new Intent(this, FastenerDetailActivity.class);
                 ConstraintLayout constraintLayout = findViewById(R.id.list_constraint_layout);
