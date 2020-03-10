@@ -388,14 +388,15 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
             clicked_cell_position = position;
             clicked_row_num = position / NR_OF_ROWS;
             showSizesDialog();
+            vibrate(VIBRATION_TOGGLE);
         }
         /*----- field click ----*/
         else {
             /*--- if the value in field is not empty, show dialog for deleting ---*/
             if(!getCellGridValue(position).equals(getResources().getString(R.string.empty))){
                 deleteSize(position);
+                vibrate(VIBRATION_TOGGLE);
             }
         }
-        vibrate(VIBRATION_TOGGLE);
     }
 }

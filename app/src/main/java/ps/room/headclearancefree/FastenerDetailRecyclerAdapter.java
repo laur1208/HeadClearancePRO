@@ -86,6 +86,7 @@ public class FastenerDetailRecyclerAdapter extends RecyclerView.Adapter<Fastener
             case 1: /*---- header -----*/
                 holder.header.setBackgroundColor(Color.GRAY);
                 holder.header.setTextColor(Color.BLACK);
+                holder.header.setTypeface(Typeface.DEFAULT_BOLD);
                 switch (position){
                     case 0:
                         holder.header.setText(R.string.size);
@@ -131,6 +132,7 @@ public class FastenerDetailRecyclerAdapter extends RecyclerView.Adapter<Fastener
                 holder.field.setBackgroundColor(Color.WHITE);
                 holder.field.setId(position);
                 holder.field.setTag(position);
+                holder.field.setTypeface(Typeface.DEFAULT_BOLD);
                 holder.position = position;
                 /*--- check if we have previous sizes,
                        and if the position is passed the headers row
