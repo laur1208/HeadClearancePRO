@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import ps.room.headclearancefree.DatabaseTablesContract.FastenerDescriptionEntry;
 
@@ -53,7 +54,6 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         fetchFastenerDescriptionList(mFastenerTypeId);
 
         displayFastenersList();
-
     }
 
     private void vibrate(int VIBRATION_TOGGLE){
@@ -122,30 +122,35 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                previousSizes = data.getExtras().getStringArrayList("sizes");
+                assert data != null;
+                previousSizes = Objects.requireNonNull(data.getExtras()).getStringArrayList("sizes");
             }
         }
     }
 
     @Override
     public void onFastenerClick(int position, View clickedView, int fastener_id, int fastener_type_id, int value_to_set_on_favorite) {
-        if (clickedView.getId() == R.id.favorite_img) {
-            updateFastenerFavoriteValue(position, fastener_id, fastener_type_id, value_to_set_on_favorite);
-        } else {
-            Intent intent = new Intent(this, FastenerDetailActivity.class);
-            ConstraintLayout constraintLayout = findViewById(R.id.list_constraint_layout);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("fastenerTypeId", fastener_type_id);
-            intent.putExtra("fastenerId", fastener_id);
-            intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
-            if(previousSizes != null){
-                intent.putExtra("sizes", (Serializable) previousSizes);
+        FastenerDescription fastenerDescription = mFastenerDescriptionList.get(position);
+        /*--- check if fastener is on free version or not ---*/
+        if (fastenerDescription.getIsAvailable() == 1){
+            if (clickedView.getId() == R.id.favorite_img) {
+                updateFastenerFavoriteValue(position, fastener_id, fastener_type_id, value_to_set_on_favorite);
+            } else {
+                Intent intent = new Intent(this, FastenerDetailActivity.class);
+                ConstraintLayout constraintLayout = findViewById(R.id.list_constraint_layout);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("fastenerTypeId", fastener_type_id);
+                intent.putExtra("fastenerId", fastener_id);
+                intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+                if(previousSizes != null){
+                    intent.putExtra("sizes", (Serializable) previousSizes);
+                }
+                startActivityForResult(intent, 1);
             }
-            //this.finish();
-//            startActivity(intent);
-            startActivityForResult(intent, 1);
+            vibrate(VIBRATION_TOGGLE);
+        }else{
+            Toast.makeText(this,"Fastener available only on PRO version.",Toast.LENGTH_SHORT).show();
         }
-        vibrate(VIBRATION_TOGGLE);
     }
 
     void updateFastenerFavoriteValue(int position, int fastener_id, int fastener_type_id, int value_to_set_on_favorite){

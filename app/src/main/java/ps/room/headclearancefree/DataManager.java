@@ -61,6 +61,7 @@ class DataManager {
         int standard_detailedPos = cursor.getColumnIndex(FastenerDescriptionEntry.STANDARD_DETAILED);
         int imagePos = cursor.getColumnIndex(FastenerDescriptionEntry.IMAGE);
         int isFavoritePos = cursor.getColumnIndex(FastenerDescriptionEntry.IS_FAVORITE);
+        int isAvailablePos = cursor.getColumnIndex(FastenerDescriptionEntry.IS_AVAILABLE);
 
         DataManager dm = getInstance();
         dm.fastenerDescriptionList.clear();
@@ -74,8 +75,9 @@ class DataManager {
             byte[] image = cursor.getBlob(imagePos);
             Bitmap imgBitmap = BitmapFactory.decodeByteArray(image,0,image.length);
             int isFavorite = cursor.getInt(isFavoritePos);
+            int isAvailable = cursor.getInt(isAvailablePos);
 
-            dm.fastenerDescriptionList.add(new FastenerDescription(fastenerType,fastenerTypeId,id,fastenerName,standard,standardDetailed,imgBitmap,isFavorite));
+            dm.fastenerDescriptionList.add(new FastenerDescription(fastenerType,fastenerTypeId,id,fastenerName,standard,standardDetailed,imgBitmap,isFavorite,isAvailable));
         }
         cursor.close();
     }

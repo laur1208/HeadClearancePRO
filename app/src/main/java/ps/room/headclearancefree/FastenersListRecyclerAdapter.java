@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,6 +55,20 @@ public class FastenersListRecyclerAdapter extends RecyclerView.Adapter<Fasteners
         holder.positionInList = position;
         holder.fastenerTypeId = Integer.parseInt(FastenerDescription.getFastenerTypeId());
 
+        if(FastenerDescription.getIsAvailable() == 0){
+            holder.mFastenerDescription.setAlpha(0.2f);
+            holder.mFastenerImage.setAlpha(0.5f);
+            holder.mIsFavorite.setAlpha(0.2f);
+        }else{
+            holder.mFastenerDescription.setAlpha(1f);
+            holder.mFastenerImage.setAlpha(1f);
+            holder.mIsFavorite.setAlpha(1f);
+        }
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
     }
 
     @Override
@@ -76,6 +91,7 @@ public class FastenersListRecyclerAdapter extends RecyclerView.Adapter<Fasteners
             super(itemView);
             mFastenerDescription = itemView.findViewById(R.id.fastener_name_rel);
             mFastenerImage = itemView.findViewById(R.id.fastener_image_frm);
+
             mIsFavorite = itemView.findViewById(R.id.favorite_img);
             this.onFastenerListener = onFastenerListener;
 
