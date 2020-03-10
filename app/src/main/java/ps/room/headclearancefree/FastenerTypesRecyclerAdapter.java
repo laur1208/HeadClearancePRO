@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class FastenerTypesRecyclerAdapter extends RecyclerView.Adapter<FastenerTypesRecyclerAdapter.ViewHolder>{
-    private static final String TAG = "===CLICK LOG=== ";
     private final List<FastenerType> mFastenerTypeList;
     private final LayoutInflater mLayoutInflater;
     /*----- other variables -----*/
