@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +31,6 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
     private MyDatabaseHelper mMyDatabaseHelper;
     private FastenersListRecyclerAdapter mFastenerTypesRecyclerAdapter;
     private List<FastenerDescription> mFastenerDescriptionList;
-    private int mFastenerTypeId;
     private List<String> previousSizes;
     public static int VIBRATION_TOGGLE;
 
@@ -42,17 +40,18 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         setContentView(R.layout.activity_fasteners_list);
 
         Bundle extras = getIntent().getExtras();
+        int fastenerTypeId;
         if (extras == null) {
-            mFastenerTypeId = -1;
+            fastenerTypeId = -1;
         }else{
-            mFastenerTypeId = extras.getInt("FASTENER_TYPE_ID");
+            fastenerTypeId = extras.getInt("FASTENER_TYPE_ID");
             VIBRATION_TOGGLE = extras.getInt("VIBRATION_TOGGLE");
             if(extras.getStringArrayList("sizes") != null){
                 previousSizes = extras.getStringArrayList("sizes");
             }
         }
 
-        fetchFastenerDescriptionList(mFastenerTypeId);
+        fetchFastenerDescriptionList(fastenerTypeId);
 
         displayFastenersList();
     }
@@ -136,11 +135,10 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         if (fastenerDescription.getIsAvailable() == 1){
             /*--- if favorite click ---*/
             if (clickedView.getId() == R.id.favorite_img) {
-                updateFastenerFavoriteValue(position, fastener_id, fastener_type_id, value_to_set_on_favorite);
+                updateFastenerFavoriteValue(fastener_id, fastener_type_id, value_to_set_on_favorite);
                 /*--- if fastener click ---*/
             } else {
                 Intent intent = new Intent(this, FastenerDetailActivity.class);
-                ConstraintLayout constraintLayout = findViewById(R.id.list_constraint_layout);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("fastenerTypeId", fastener_type_id);
                 intent.putExtra("fastenerId", fastener_id);
@@ -157,7 +155,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         }
     }
 
-    void updateFastenerFavoriteValue(int position, int fastener_id, int fastener_type_id, int value_to_set_on_favorite){
+    void updateFastenerFavoriteValue(int fastener_id, int fastener_type_id, int value_to_set_on_favorite){
         mMyDatabaseHelper = MyDatabaseHelper.getInstance(this);
         try {
 
@@ -173,17 +171,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         SQLiteDatabase database = mMyDatabaseHelper.getReadableDatabase();
 
         try{
-            //load all data
-            //logDataFromDb(database, "FastenerDescription", "[Update] ", "[Before update] ",null,null,null);
-
-            logDataFromDb(database, "FastenerDescription", "[Update] ", "[Before update] ",null,"id = ?",whereArgs, position);
-
             int nr_of_updated_rows = database.update("FastenerDescription", values, whereClause, whereArgs);
-
-            //update all
-            //int nrOfUpdatedRows = database.update("FastenerDescription", values, null, null);
-            logDataFromDb(database, "FastenerDescription", "[Update] ", "[After update] ",null,"id = ?",whereArgs, position);
-            //logDataFromDb(database, "FastenerDescription", "[Update] ", "[Before update] ",null,null,null);
 
             if(nr_of_updated_rows > 0){
                 mMyDatabaseHelper.close();
@@ -200,19 +188,5 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         {
             Log.i(TAG,"[Update fastener error]: " + ex);
         }
-    }
-
-    void logDataFromDb(SQLiteDatabase db, String tableName, String logTag, String whenHappened, String[] columnNames, String selection, String[] selectionArgs, int positionInList){
-        Cursor cursor = db.query(tableName,columnNames,selection,selectionArgs,null,null,null);
-        int favoritePos = cursor.getColumnIndex(FastenerDescriptionEntry.IS_FAVORITE);
-        int fastenerNamePos = cursor.getColumnIndex(FastenerDescriptionEntry.FASTENER_NAME);
-        int fastenerIdPos = cursor.getColumnIndex(FastenerDescriptionEntry.ID);
-        while(cursor.moveToNext()){
-            int favorite = cursor.getInt(favoritePos);
-            String fastenerName = cursor.getString(fastenerNamePos);
-            int id = cursor.getInt(fastenerIdPos);
-            Log.i(logTag, whenHappened + " [fastener id]: " + id + " [is favorite]: " + favorite + " [fastener name]:" + fastenerName + " [at position ] " + positionInList);
-        }
-        cursor.close();
     }
 }

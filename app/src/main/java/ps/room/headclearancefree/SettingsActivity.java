@@ -15,7 +15,6 @@ import androidx.preference.SwitchPreferenceCompat;
 
 public class SettingsActivity extends AppCompatActivity {
     public static int VIBRATION_TOGGLE;
-    private MyDatabaseHelper mMyDatabaseHelper;
 
     @Override
     public void onBackPressed() {
@@ -47,15 +46,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void getVibrationEffect(){
-        mMyDatabaseHelper = MyDatabaseHelper.getInstance(this);
+        MyDatabaseHelper myDatabaseHelper = MyDatabaseHelper.getInstance(this);
         try {
 
-            mMyDatabaseHelper.createDataBase();
+            myDatabaseHelper.createDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        SQLiteDatabase database = mMyDatabaseHelper.getReadableDatabase();
+        SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
         Cursor vibrationCursor = database.query("VibrationEffect", null, null, null, null, null, null);
         int isSetPos = vibrationCursor.getColumnIndex("IS_SET");
         while(vibrationCursor.moveToNext()){
@@ -66,14 +65,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         private FragmentActivity mContext;
-        private FragmentActivity mActivity;
-        private MyDatabaseHelper mMyDatabaseHelper;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mContext = this.getActivity();
-            mActivity = this.getActivity();
+            FragmentActivity activity = this.getActivity();
 
             final SwitchPreferenceCompat onOffRandomColor = findPreference(mContext.getString(R.string.vibration_toggle));
             if(VIBRATION_TOGGLE == 0) {
@@ -107,17 +104,17 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void updateVibrationSetting(int value){
-            mMyDatabaseHelper = MyDatabaseHelper.getInstance(mContext);
+            MyDatabaseHelper myDatabaseHelper = MyDatabaseHelper.getInstance(mContext);
             try {
 
-                mMyDatabaseHelper.createDataBase();
+                myDatabaseHelper.createDataBase();
             } catch (Exception e) {
                 e.printStackTrace();
             }
             ContentValues values = new ContentValues();
             values.put("IS_SET", value);
-            SQLiteDatabase database = mMyDatabaseHelper.getReadableDatabase();
-            int nr_of_updated_rows = database.update("VibrationEffect", values, null, null);
+            SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
+            database.update("VibrationEffect", values, null, null);
         }
 
     }

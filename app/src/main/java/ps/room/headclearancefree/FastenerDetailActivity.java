@@ -39,19 +39,13 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
     private static int NR_OF_COLUMNS;
     private static int NR_OF_ROWS;
     private static int NR_OF_CELLS;
-    private static int GRID_SPACING = 1;
 
     /*------------ other variables -----------*/
     private static final String TAG = "==GRID CLICK==";
     private static int mFastenerId;
     private static int mFastenerTypeId;
-    private CustomGridLayoutManager mCustomGridLayoutManager;
     private static Bitmap mFastenerLegendImage;
-    private List<FastenerSizes> mFastenerSizesList;
     private Map<String, FastenerSizes> mSizesMap;
-    private ImageView mFastenerImage;
-    private PopupMenu mPopupMenu;
-    private int clicked_row_num;
     private int clicked_cell_position;
     private RecyclerView mRecyclerView;
     private List<String> mPreviousSizes;
@@ -64,11 +58,8 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         backIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         backIntent.putExtra("sizes", (Serializable) sizes);
         backIntent.putExtra("FASTENER_TYPE_ID", mFastenerTypeId);
-        //startActivity(backIntent);
-        //startActivityForResult(backIntent, 1);
         setResult(RESULT_OK, backIntent);
         finish();
-//        super.onBackPressed();
     }
 
     @Override
@@ -84,13 +75,14 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 
         /*-----grid recycler adapter-----*/
         mRecyclerView = findViewById(R.id.grid_recycler);
+        int GRID_SPACING = 1;
         FastenerDetailRecyclerAdapter fastenerDetailRecyclerAdapter = new FastenerDetailRecyclerAdapter(this, NR_OF_ROWS, NR_OF_COLUMNS, GRID_SPACING, mPreviousSizes, mSizesMap, this);
         //mFastenerDetailRecyclerAdapter.setHasStableIds(true);
 
         /*--- set custom grid for the recycler ---*/
-        mCustomGridLayoutManager = new CustomGridLayoutManager(this, NR_OF_COLUMNS);
-        mCustomGridLayoutManager.setScrollEnabled(false);
-        mRecyclerView.setLayoutManager(mCustomGridLayoutManager);
+        CustomGridLayoutManager customGridLayoutManager = new CustomGridLayoutManager(this, NR_OF_COLUMNS);
+        customGridLayoutManager.setScrollEnabled(false);
+        mRecyclerView.setLayoutManager(customGridLayoutManager);
         mRecyclerView.setAdapter(fastenerDetailRecyclerAdapter);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(NR_OF_COLUMNS, GRID_SPACING, true));
 
@@ -99,8 +91,8 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         legendImage.setImageBitmap(mFastenerLegendImage);
 
         /*---- set fastener image -----*/
-        mFastenerImage = findViewById(R.id.fastener_image_frm);
-        mFastenerImage.setImageBitmap(DataManager.getInstance().getFastenerImage());
+        ImageView fastenerImage = findViewById(R.id.fastener_image_frm);
+        fastenerImage.setImageBitmap(DataManager.getInstance().getFastenerImage());
 
         /*---- set fastener name ----*/
         TextView fastenerName = findViewById(R.id.fastener_name_rel);
@@ -386,7 +378,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         /*---- button click -----*/
         else if (position % NR_OF_COLUMNS == 0){
             clicked_cell_position = position;
-            clicked_row_num = position / NR_OF_ROWS;
+            int clicked_row_num = position / NR_OF_ROWS;
             showSizesDialog();
             vibrate(VIBRATION_TOGGLE);
         }
