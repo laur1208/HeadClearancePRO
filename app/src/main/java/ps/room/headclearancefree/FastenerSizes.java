@@ -33,7 +33,7 @@ public class FastenerSizes {
         return fastenerType;
     }
 
-    public void setFastenerType(String fastenerType) {
+    private void setFastenerType(String fastenerType) {
         this.fastenerType = fastenerType;
     }
 
@@ -49,7 +49,7 @@ public class FastenerSizes {
         return fastenerName;
     }
 
-    public void setFastenerName(String fastenerName) {
+    private void setFastenerName(String fastenerName) {
         this.fastenerName = fastenerName;
     }
 
@@ -57,63 +57,63 @@ public class FastenerSizes {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    private void setImage(Bitmap image) {
         this.image = image;
     }
 
-    public String getMainSize() {
+    String getMainSize() {
         return mainSize;
     }
 
-    public void setMainSize(String mainSize) {
+    private void setMainSize(String mainSize) {
         this.mainSize = mainSize;
     }
 
-    public double getaMinSize() {
+    double getaMinSize() {
         return aMinSize;
     }
 
-    public void setaMinSize(double aMinSize) {
+    private void setaMinSize(double aMinSize) {
         this.aMinSize = aMinSize;
     }
 
-    public double getaSize() {
+    double getaSize() {
         return aSize;
     }
 
-    public void setaSize(double aSize) {
+    private void setaSize(double aSize) {
         this.aSize = aSize;
     }
 
-    public double getaMaxSize() {
+    double getaMaxSize() {
         return aMaxSize;
     }
 
-    public void setaMaxSize(double aMaxSize) {
+    private void setaMaxSize(double aMaxSize) {
         this.aMaxSize = aMaxSize;
     }
 
-    public double getbSize() {
+    double getbSize() {
         return bSize;
     }
 
-    public void setbSize(double bSize) {
+    private void setbSize(double bSize) {
         this.bSize = bSize;
     }
 
-    public double getcSize() {
+    double getcSize() {
         return cSize;
     }
 
-    public void setcSize(double cSize) {
+    private void setcSize(double cSize) {
         this.cSize = cSize;
     }
 
-    public double getdSize() {
+    double getdSize() {
         return dSize;
     }
 
-    public void setdSize(double dSize) {
+    private void setdSize(double dSize) {
         this.dSize = dSize;
     }
 }

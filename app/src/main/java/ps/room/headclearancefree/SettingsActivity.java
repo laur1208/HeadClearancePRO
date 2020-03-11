@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -15,14 +16,20 @@ import androidx.preference.SwitchPreferenceCompat;
 
 public class SettingsActivity extends AppCompatActivity {
     public static int VIBRATION_TOGGLE;
-    private MyDatabaseHelper mMyDatabaseHelper;
+    public static String CALLEE_ACTIVITY;
+
 
     @Override
     public void onBackPressed() {
-        Intent backIntent = new Intent(this, FastenerTypesActivity.class);
-        backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
-        setResult(RESULT_OK, backIntent);
-        finish();
+        try {
+            Class<?> c = Class.forName("ps.room.headclearancefree."+CALLEE_ACTIVITY);
+            Intent backIntent = new Intent(this, c);
+            backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+            setResult(RESULT_OK, backIntent);
+            finish();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -33,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         VIBRATION_TOGGLE = extras.getInt("VIBRATION_TOGGLE");
+        CALLEE_ACTIVITY = extras.getString("CALLEE_ACTIVITY");
 
         getVibrationEffect();
 
@@ -47,15 +55,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void getVibrationEffect(){
-        mMyDatabaseHelper = MyDatabaseHelper.getInstance(this);
+        MyDatabaseHelper myDatabaseHelper = MyDatabaseHelper.getInstance(this);
         try {
 
-            mMyDatabaseHelper.createDataBase();
+            myDatabaseHelper.createDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        SQLiteDatabase database = mMyDatabaseHelper.getReadableDatabase();
+        SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
         Cursor vibrationCursor = database.query("VibrationEffect", null, null, null, null, null, null);
         int isSetPos = vibrationCursor.getColumnIndex("IS_SET");
         while(vibrationCursor.moveToNext()){
@@ -66,58 +74,68 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         private FragmentActivity mContext;
-        private FragmentActivity mActivity;
-        private MyDatabaseHelper mMyDatabaseHelper;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mContext = this.getActivity();
-            mActivity = this.getActivity();
+            FragmentActivity activity = this.getActivity();
 
-            final SwitchPreferenceCompat onOffRandomColor = findPreference(mContext.getString(R.string.vibration_toggle));
+            final SwitchPreferenceCompat vibration_toggle = findPreference(mContext.getString(R.string.vibration_toggle));
+            final Preference pro_version = findPreference(mContext.getString(R.string.pro_version));
             if(VIBRATION_TOGGLE == 0) {
-                assert onOffRandomColor != null;
-                onOffRandomColor.setChecked(false);
+                assert vibration_toggle != null;
+                vibration_toggle.setChecked(false);
             }
             else {
-                assert onOffRandomColor != null;
-                onOffRandomColor.setChecked(true);
+                assert vibration_toggle != null;
+                vibration_toggle.setChecked(true);
             }
 
-            onOffRandomColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            /*--- vibration toggle tap ---*/
+            vibration_toggle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if(onOffRandomColor.isChecked()){
+                    if(vibration_toggle.isChecked()){
                         updateVibrationSetting(0);
                         VIBRATION_TOGGLE = 0;
 
                         // Checked the switch programmatically
-                        onOffRandomColor.setChecked(false);
+                        vibration_toggle.setChecked(false);
                     }else {
                         updateVibrationSetting(1);
                         VIBRATION_TOGGLE = 1;
 
                         // Unchecked the switch programmatically
-                        onOffRandomColor.setChecked(true);
+                        vibration_toggle.setChecked(true);
                     }
+                    return false;
+                }
+            });
+
+            /*--- pro version tap ---*/
+            assert pro_version != null;
+            pro_version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.PRO_VERSION_LINK))));
                     return false;
                 }
             });
         }
 
         private void updateVibrationSetting(int value){
-            mMyDatabaseHelper = MyDatabaseHelper.getInstance(mContext);
+            MyDatabaseHelper myDatabaseHelper = MyDatabaseHelper.getInstance(mContext);
             try {
 
-                mMyDatabaseHelper.createDataBase();
+                myDatabaseHelper.createDataBase();
             } catch (Exception e) {
                 e.printStackTrace();
             }
             ContentValues values = new ContentValues();
             values.put("IS_SET", value);
-            SQLiteDatabase database = mMyDatabaseHelper.getReadableDatabase();
-            int nr_of_updated_rows = database.update("VibrationEffect", values, null, null);
+            SQLiteDatabase database = myDatabaseHelper.getReadableDatabase();
+            database.update("VibrationEffect", values, null, null);
         }
 
     }

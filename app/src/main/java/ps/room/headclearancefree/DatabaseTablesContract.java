@@ -36,6 +36,5 @@ final class DatabaseTablesContract {
         static final String A_MAX_SIZE = "A_MAX_SIZE";
         static final String B_SIZE = "B_SIZE";
         static final String C_SIZE = "C_SIZE";
-        static final String D_SIZE = "D_SIZE";
     }
 }

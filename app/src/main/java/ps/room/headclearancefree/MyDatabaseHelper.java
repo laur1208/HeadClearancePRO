@@ -32,7 +32,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
      * Constructor Takes and keeps a reference of the passed context in order to
      * access to the application assets and resources.
      *
-     * @param context
+     *
      */
     private MyDatabaseHelper(Context context) {
         super(context, DB_NAME, null, 1);

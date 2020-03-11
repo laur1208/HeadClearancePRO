@@ -18,7 +18,6 @@ class DataManager {
     private static DataManager ourInstance = null;
     private List<FastenerType> fastenerTypes = new ArrayList<>();
     private List<FastenerDescription> fastenerDescriptionList = new ArrayList<>();
-    //private List<FastenerSizes> fastenerSizesList = new ArrayList<>();
     private Map<String, FastenerSizes> mSizesHashMap =  new LinkedHashMap<>();
     private String fastenerName;
     private Bitmap fastenerImage;
@@ -137,9 +136,6 @@ class DataManager {
     String getFastenerName(){return fastenerName;}
     Bitmap getFastenerImage(){return fastenerImage;}
     Map<String, FastenerSizes> getSizesHashMap(){return mSizesHashMap;}
-    //List<FastenerSizes> getFastenerSizesList(){
-//        return fastenerSizesList;
-//    }
     List<FastenerType> getFastenerTypes(){
         return fastenerTypes;
     }

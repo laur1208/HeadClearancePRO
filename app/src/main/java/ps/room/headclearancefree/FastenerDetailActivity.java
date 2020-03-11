@@ -16,11 +16,15 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,19 +43,13 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
     private static int NR_OF_COLUMNS;
     private static int NR_OF_ROWS;
     private static int NR_OF_CELLS;
-    private static int GRID_SPACING = 1;
 
     /*------------ other variables -----------*/
     private static final String TAG = "==GRID CLICK==";
     private static int mFastenerId;
     private static int mFastenerTypeId;
-    private CustomGridLayoutManager mCustomGridLayoutManager;
     private static Bitmap mFastenerLegendImage;
-    private List<FastenerSizes> mFastenerSizesList;
     private Map<String, FastenerSizes> mSizesMap;
-    private ImageView mFastenerImage;
-    private PopupMenu mPopupMenu;
-    private int clicked_row_num;
     private int clicked_cell_position;
     private RecyclerView mRecyclerView;
     private List<String> mPreviousSizes;
@@ -64,11 +62,8 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         backIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         backIntent.putExtra("sizes", (Serializable) sizes);
         backIntent.putExtra("FASTENER_TYPE_ID", mFastenerTypeId);
-        //startActivity(backIntent);
-        //startActivityForResult(backIntent, 1);
         setResult(RESULT_OK, backIntent);
         finish();
-//        super.onBackPressed();
     }
 
     @Override
@@ -84,13 +79,14 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 
         /*-----grid recycler adapter-----*/
         mRecyclerView = findViewById(R.id.grid_recycler);
+        int GRID_SPACING = 1;
         FastenerDetailRecyclerAdapter fastenerDetailRecyclerAdapter = new FastenerDetailRecyclerAdapter(this, NR_OF_ROWS, NR_OF_COLUMNS, GRID_SPACING, mPreviousSizes, mSizesMap, this);
         //mFastenerDetailRecyclerAdapter.setHasStableIds(true);
 
         /*--- set custom grid for the recycler ---*/
-        mCustomGridLayoutManager = new CustomGridLayoutManager(this, NR_OF_COLUMNS);
-        mCustomGridLayoutManager.setScrollEnabled(false);
-        mRecyclerView.setLayoutManager(mCustomGridLayoutManager);
+        CustomGridLayoutManager customGridLayoutManager = new CustomGridLayoutManager(this, NR_OF_COLUMNS);
+        customGridLayoutManager.setScrollEnabled(false);
+        mRecyclerView.setLayoutManager(customGridLayoutManager);
         mRecyclerView.setAdapter(fastenerDetailRecyclerAdapter);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(NR_OF_COLUMNS, GRID_SPACING, true));
 
@@ -99,8 +95,8 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         legendImage.setImageBitmap(mFastenerLegendImage);
 
         /*---- set fastener image -----*/
-        mFastenerImage = findViewById(R.id.fastener_image_frm);
-        mFastenerImage.setImageBitmap(DataManager.getInstance().getFastenerImage());
+        ImageView fastenerImage = findViewById(R.id.fastener_image_frm);
+        fastenerImage.setImageBitmap(DataManager.getInstance().getFastenerImage());
 
         /*---- set fastener name ----*/
         TextView fastenerName = findViewById(R.id.fastener_name_rel);
@@ -115,6 +111,37 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 
         /*---- add sizes to menu-----*/
         //addSizesToMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+            intent.putExtra("CALLEE_ACTIVITY", this.getClass().getSimpleName());
+            startActivityForResult(intent, 1);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                assert data != null;
+                VIBRATION_TOGGLE = Objects.requireNonNull(data.getExtras()).getInt("VIBRATION_TOGGLE");
+            }
+        }
     }
 
     /*---- get the sizes present in grid ----*/
@@ -386,7 +413,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         /*---- button click -----*/
         else if (position % NR_OF_COLUMNS == 0){
             clicked_cell_position = position;
-            clicked_row_num = position / NR_OF_ROWS;
+            int clicked_row_num = position / NR_OF_ROWS;
             showSizesDialog();
             vibrate(VIBRATION_TOGGLE);
         }
