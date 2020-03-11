@@ -150,8 +150,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
             }
             vibrate(VIBRATION_TOGGLE);
         }else{
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.PRO_VERSION_LINK))));
-            //Toast.makeText(this,"Fastener available only on PRO version.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Fastener available only on PRO version. Go to settings to check PRO version.",Toast.LENGTH_SHORT).show();
         }
     }
 

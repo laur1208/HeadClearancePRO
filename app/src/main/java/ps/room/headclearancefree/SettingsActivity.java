@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
@@ -72,32 +74,44 @@ public class SettingsActivity extends AppCompatActivity {
             mContext = this.getActivity();
             FragmentActivity activity = this.getActivity();
 
-            final SwitchPreferenceCompat onOffRandomColor = findPreference(mContext.getString(R.string.vibration_toggle));
+            final SwitchPreferenceCompat vibration_toggle = findPreference(mContext.getString(R.string.vibration_toggle));
+            final Preference pro_version = findPreference(mContext.getString(R.string.pro_version));
             if(VIBRATION_TOGGLE == 0) {
-                assert onOffRandomColor != null;
-                onOffRandomColor.setChecked(false);
+                assert vibration_toggle != null;
+                vibration_toggle.setChecked(false);
             }
             else {
-                assert onOffRandomColor != null;
-                onOffRandomColor.setChecked(true);
+                assert vibration_toggle != null;
+                vibration_toggle.setChecked(true);
             }
 
-            onOffRandomColor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            /*--- vibration toggle tap ---*/
+            vibration_toggle.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if(onOffRandomColor.isChecked()){
+                    if(vibration_toggle.isChecked()){
                         updateVibrationSetting(0);
                         VIBRATION_TOGGLE = 0;
 
                         // Checked the switch programmatically
-                        onOffRandomColor.setChecked(false);
+                        vibration_toggle.setChecked(false);
                     }else {
                         updateVibrationSetting(1);
                         VIBRATION_TOGGLE = 1;
 
                         // Unchecked the switch programmatically
-                        onOffRandomColor.setChecked(true);
+                        vibration_toggle.setChecked(true);
                     }
+                    return false;
+                }
+            });
+
+            /*--- pro version tap ---*/
+            assert pro_version != null;
+            pro_version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.PRO_VERSION_LINK))));
                     return false;
                 }
             });
