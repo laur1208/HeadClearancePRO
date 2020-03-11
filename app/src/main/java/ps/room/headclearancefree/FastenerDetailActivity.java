@@ -16,11 +16,15 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -107,6 +111,37 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 
         /*---- add sizes to menu-----*/
         //addSizesToMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+            intent.putExtra("CALLEE_ACTIVITY", this.getClass().getSimpleName());
+            startActivityForResult(intent, 1);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                assert data != null;
+                VIBRATION_TOGGLE = Objects.requireNonNull(data.getExtras()).getInt("VIBRATION_TOGGLE");
+            }
+        }
     }
 
     /*---- get the sizes present in grid ----*/

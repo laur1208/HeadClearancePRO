@@ -73,6 +73,7 @@ public class FastenerTypesActivity extends AppCompatActivity implements Fastener
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+            intent.putExtra("CALLEE_ACTIVITY", this.getClass().getSimpleName());
             startActivityForResult(intent, 1);
             return true;
         }

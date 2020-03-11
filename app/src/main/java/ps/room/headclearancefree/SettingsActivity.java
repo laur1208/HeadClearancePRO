@@ -10,20 +10,26 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
-import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 public class SettingsActivity extends AppCompatActivity {
     public static int VIBRATION_TOGGLE;
+    public static String CALLEE_ACTIVITY;
+
 
     @Override
     public void onBackPressed() {
-        Intent backIntent = new Intent(this, FastenerTypesActivity.class);
-        backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
-        setResult(RESULT_OK, backIntent);
-        finish();
+        try {
+            Class<?> c = Class.forName("ps.room.headclearancefree."+CALLEE_ACTIVITY);
+            Intent backIntent = new Intent(this, c);
+            backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+            setResult(RESULT_OK, backIntent);
+            finish();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -34,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         VIBRATION_TOGGLE = extras.getInt("VIBRATION_TOGGLE");
+        CALLEE_ACTIVITY = extras.getString("CALLEE_ACTIVITY");
 
         getVibrationEffect();
 

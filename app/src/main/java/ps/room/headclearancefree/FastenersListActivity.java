@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -111,6 +114,27 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         super.onPause();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+            intent.putExtra("CALLEE_ACTIVITY", this.getClass().getSimpleName());
+            startActivityForResult(intent, 2);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onDestroy() {
         mMyDatabaseHelper.close();
@@ -124,6 +148,12 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
             if(resultCode == RESULT_OK){
                 assert data != null;
                 previousSizes = Objects.requireNonNull(data.getExtras()).getStringArrayList("sizes");
+            }
+        }
+        else if(requestCode == 2){
+            if(resultCode == RESULT_OK){
+                assert data != null;
+                VIBRATION_TOGGLE = Objects.requireNonNull(data.getExtras()).getInt("VIBRATION_TOGGLE");
             }
         }
     }
