@@ -2,7 +2,6 @@ package ps.room.headclearancefree;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -46,7 +45,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     void createDataBase() {
 
         if(!checkDataBase()){
-            SQLiteDatabase db_Read = null;
+            SQLiteDatabase db_Read;
 
             // Creates empty database default system path
             db_Read = this.getReadableDatabase();
@@ -109,14 +108,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         myOutput.flush();
         myOutput.close();
         myInput.close();
-    }
-
-    void openDataBase() throws SQLException {
-
-        // Opens the database
-        String myPath = DB_PATH + DB_NAME;
-        SQLiteDatabase.openDatabase(myPath, null,
-                SQLiteDatabase.OPEN_READONLY);
     }
 
     @Override

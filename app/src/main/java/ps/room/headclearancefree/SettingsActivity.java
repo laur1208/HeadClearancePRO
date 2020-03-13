@@ -79,8 +79,8 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             mContext = this.getActivity();
-            FragmentActivity activity = this.getActivity();
 
+            assert mContext != null;
             final SwitchPreferenceCompat vibration_toggle = findPreference(mContext.getString(R.string.vibration_toggle));
             final Preference pro_version = findPreference(mContext.getString(R.string.pro_version));
             if(VIBRATION_TOGGLE == 0) {

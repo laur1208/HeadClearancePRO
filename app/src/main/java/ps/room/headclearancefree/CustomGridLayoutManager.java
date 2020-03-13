@@ -9,8 +9,8 @@ public class CustomGridLayoutManager extends GridLayoutManager {
     CustomGridLayoutManager(Context context, int spanCount) {
         super(context, spanCount);
     }
-    void setScrollEnabled(boolean flag) {
-        this.isScrollEnabled = flag;
+    void setScrollEnabled() {
+        this.isScrollEnabled = false;
     }
 
     @Override

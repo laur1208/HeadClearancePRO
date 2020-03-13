@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -86,7 +85,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
 
         /*--- set custom grid for the recycler ---*/
         CustomGridLayoutManager customGridLayoutManager = new CustomGridLayoutManager(this, NR_OF_COLUMNS);
-        customGridLayoutManager.setScrollEnabled(false);
+        customGridLayoutManager.setScrollEnabled();
         mRecyclerView.setLayoutManager(customGridLayoutManager);
         mRecyclerView.setAdapter(fastenerDetailRecyclerAdapter);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(NR_OF_COLUMNS, GRID_SPACING, true));
@@ -414,7 +413,6 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         /*---- button click -----*/
         else if (position % NR_OF_COLUMNS == 0){
             clicked_cell_position = position;
-            int clicked_row_num = position / NR_OF_ROWS;
             showSizesDialog();
             vibrate(VIBRATION_TOGGLE);
         }
