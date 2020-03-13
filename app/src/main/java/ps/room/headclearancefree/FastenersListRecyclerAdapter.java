@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class FastenersListRecyclerAdapter extends RecyclerView.Adapter<FastenersListRecyclerAdapter.ViewHolder>{
-    private static final String tag = "===FASTENER DESC LIST LOG=== ";
     private List<FastenerDescription> mFastenerDescriptionList;
     private final LayoutInflater mLayoutInflater;
     private ViewHolder.OnFastenerListener onFastenerListener;

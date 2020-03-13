@@ -94,7 +94,6 @@ class DataManager {
         int cSizePos = cursor.getColumnIndex(FastenerSizesEntry.C_SIZE);
 
         DataManager dm = getInstance();
-        //dm.fastenerSizesList.clear();
         dm.mSizesHashMap.clear();
         dm.fastenerImage = null;
         dm.fastenerName = null;
@@ -126,11 +125,6 @@ class DataManager {
         double hypotenuse = bSize / 2 / sinus;
         DecimalFormat doubleFormat = new DecimalFormat("#.##");
         return Double.isInfinite(hypotenuse) ? 0 : Double.parseDouble(doubleFormat.format(Math.sqrt(hypotenuse * hypotenuse - bSize * bSize / 4)));
-    }
-
-    static void loadFastenerLegendImage(Cursor cursor) {
-
-        cursor.close();
     }
 
     String getFastenerName(){return fastenerName;}
