@@ -11,16 +11,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Try PRO version">
-
-        <Preference
-            android:defaultValue="Default value"
-            android:key="@string/pro_version"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="Go to PRO version" />
-    </PreferenceCategory>
-
     <PreferenceCategory app:title="Contact">
 
         <Preference

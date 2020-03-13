@@ -82,7 +82,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             assert mContext != null;
             final SwitchPreferenceCompat vibration_toggle = findPreference(mContext.getString(R.string.vibration_toggle));
-            final Preference pro_version = findPreference(mContext.getString(R.string.pro_version));
             if(VIBRATION_TOGGLE == 0) {
                 assert vibration_toggle != null;
                 vibration_toggle.setChecked(false);
@@ -109,16 +108,6 @@ public class SettingsActivity extends AppCompatActivity {
                         // Unchecked the switch programmatically
                         vibration_toggle.setChecked(true);
                     }
-                    return false;
-                }
-            });
-
-            /*--- pro version tap ---*/
-            assert pro_version != null;
-            pro_version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.PRO_VERSION_LINK))));
                     return false;
                 }
             });
