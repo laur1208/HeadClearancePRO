@@ -62,6 +62,7 @@ public class FastenerDetailActivity extends AppCompatActivity implements  Fasten
         backIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         backIntent.putExtra("sizes", (Serializable) sizes);
         backIntent.putExtra("FASTENER_TYPE_ID", mFastenerTypeId);
+        backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
         setResult(RESULT_OK, backIntent);
         finish();
     }

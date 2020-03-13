@@ -27,7 +27,8 @@ public class FastenerTypesActivity extends AppCompatActivity implements Fastener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        /*--- if back comes from settings or fastener list activity ---*/
+        if(requestCode == 1 || requestCode == 2){
             if(resultCode == RESULT_OK){
                 assert data != null;
                 VIBRATION_TOGGLE = Objects.requireNonNull(data.getExtras()).getInt("VIBRATION_TOGGLE");
@@ -128,7 +129,8 @@ public class FastenerTypesActivity extends AppCompatActivity implements Fastener
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("FASTENER_TYPE_ID", position);
         intent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
-        this.startActivity(intent);
+        startActivityForResult(intent, 2);
+        //this.startActivity(intent);
         vibrate(VIBRATION_TOGGLE);
     }
 }
