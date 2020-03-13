@@ -114,6 +114,13 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
         super.onPause();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent backIntent = new Intent(this, FastenerTypesActivity.class);
+        backIntent.putExtra("VIBRATION_TOGGLE", VIBRATION_TOGGLE);
+        setResult(RESULT_OK, backIntent);
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,6 +155,7 @@ public class FastenersListActivity extends AppCompatActivity implements Fastener
             if(resultCode == RESULT_OK){
                 assert data != null;
                 previousSizes = Objects.requireNonNull(data.getExtras()).getStringArrayList("sizes");
+                VIBRATION_TOGGLE= Objects.requireNonNull(data.getExtras().getInt("VIBRATION_TOGGLE"));
             }
         }
         else if(requestCode == 2){
